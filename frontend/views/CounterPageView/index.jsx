@@ -40,7 +40,7 @@ function CounterPageView() {
         alt="logo"
       />
       <Typography variant="h4" gutterBottom>
-        Counter from Internet Computer
+        Vote for Proposal
       </Typography>
       <Box
         width="10%"
@@ -60,7 +60,7 @@ function CounterPageView() {
           margin: "2rem 0",
         }}
       >
-        {`count is : ${count}`}
+        {`Approved votes : ${count}`}
       </Button>
     </Box>
   )
