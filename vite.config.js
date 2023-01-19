@@ -1,5 +1,5 @@
+import { svelte } from "@sveltejs/vite-plugin-svelte"
 import { defineConfig } from "vite"
-import reactRefresh from "@vitejs/plugin-react-refresh"
 import path from "path"
 import dfxJson from "./dfx.json"
 import fs from "fs"
@@ -9,11 +9,15 @@ const isDev = process.env["DFX_NETWORK"] !== "ic"
 let canisterIds
 try {
   canisterIds = JSON.parse(
-    fs.readFileSync(
-      isDev ? ".dfx/local/canister_ids.json" : "./canister_ids.json",
-    ),
+    fs
+      .readFileSync(
+        isDev ? ".dfx/local/canister_ids.json" : "./canister_ids.json",
+      )
+      .toString(),
   )
-} catch (e) {}
+} catch (e) {
+  console.error("\n⚠️  Before starting the dev server run: dfx deploy\n\n")
+}
 
 // List of all aliases for canisters
 // This will allow us to: import { canisterName } from "canisters/canisterName"
@@ -55,7 +59,7 @@ const DFX_PORT = dfxJson.networks.local.bind.split(":")[1]
 // See guide on how to configure Vite at:
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [reactRefresh()],
+  plugins: [svelte()],
   resolve: {
     alias: {
       // Here we tell Vite the "fake" modules that we want to define
@@ -69,7 +73,7 @@ export default defineConfig({
     proxy: {
       // This proxies all http requests made to /api to our running dfx instance
       "/api": {
-        target: `http://localhost:${DFX_PORT}`,
+        target: `http://0.0.0.0:${DFX_PORT}`,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, "/api"),
       },

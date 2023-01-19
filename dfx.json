@@ -1,16 +1,17 @@
 {
   "canisters": {
-    "counter": {
-      "main": "counter-canister/main.mo",
+    "webpage": {
+      "main": "./src/webpage/main.mo",
       "type": "motoko"
     },
-    "profile": {
-      "main": "profile-canister/main.mo",
+    "dao": {
+      "main": "./src/dao/main.mo",
       "type": "motoko"
     },
     "assets": {
       "dependencies": [
-        "counter"
+        "webpage",
+        "dao"
       ],
       "frontend": {
         "entrypoint": "dist/index.html"
@@ -26,7 +27,6 @@
       "packtool": ""
     }
   },
-  "dfx": "0.12.1",
   "networks": {
     "local": {
       "bind": "127.0.0.1:8000",
